@@ -1,7 +1,3 @@
-# Template File for Homework 2, Problem 1
-# PHYS 331
-# Amy Oldenburg
-#-------------------------------------
 import numpy as np
 def calcSum_16bit(delta):
     sum = np.float16(0.0)
