@@ -35,7 +35,7 @@ def rf_bisect(f,xlo,xhi,xtol,nmax):
             low=deepcopy(bracket(low,high))
         if abs((0-f(bracket(low,high))))<= xtol:
             root=float(bracket(low,high))
-            return (root, iters)  #wowowowowo
+            return (root, iters)  
     return None
 
 def f1(x):
