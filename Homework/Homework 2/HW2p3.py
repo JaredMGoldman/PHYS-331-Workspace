@@ -21,10 +21,7 @@ def f2(x):
     return x**3
 
 def f3(x):
-    if x==-0.1:
-        return None
-    else:
-        return np.sin(1. / (x + 0.01))
+    return np.sin(1. / (x + 0.01))
 
 def f4(x):
     return 1. / (x - 0.5)
@@ -32,20 +29,15 @@ def f4(x):
 def bracket(lo, hi):
     return ((lo+hi)/2)
 
-def PointGuard(f,xlo,xhi,xtol):
-    x_vals=np.arange(xlo,xhi,xtol)
-    y_vals= f(x_vals)
-    return (x_vals, y_vals)
-
-def arrayMaster(f,x,xlo,xhi,xtol):
+def PerryThePlotapus(f,x,xlo,xhi,xtol):
     x_array=np.asarray(x)
     y_array=f(x_array)
     x_vals=np.arange(xlo,xhi,1e-3)
     y_vals= f(x_vals)
-    plt.scatter(x_array,y_array)
+    plt.scatter(x_array,y_array, color= "black")
     plt.plot(x_vals,y_vals)
     plt.grid()
-    plt.title("Problem 3")
+    plt.title("Problem 3, Function: " + f.__name__)
     plt.xlabel('x')
     plt.ylabel('y')
     plt.show()
@@ -81,17 +73,11 @@ def rf_bisect(f,xlo,xhi,xtol,nmax):
         if abs((0-f(bracket(low,high))))<= xtol:
             root=float(bracket(low,high))
             x_array.append(root)
-            return arrayMaster(f,x_array,xlo,xhi,xtol)
+            return PerryThePlotapus(f,x_array,xlo,xhi,xtol)
     return "Iteration limit reached, no root found."
 
 for f in [f2,f3,f4]:
-    print("For function" + str(f))
+    print("For function " + f.__name__)
     print(rf_bisect(f,-1.,1., 1e-12, 1e5))
     print("")
 print(rf_bisect(f3, -1., 1., 1e-12, 1e5))
-"""
-print('Root of f3: ' + str(root))
-print('# iterations: ' + str(iters))
-fval=f2(root)
-print('f3 evaluated at root is: ' + str(fval))
-"""

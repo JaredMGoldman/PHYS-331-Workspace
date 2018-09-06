@@ -24,18 +24,19 @@ def rf_bisect(f,xlo,xhi,xtol,nmax):
     """
     from copy import deepcopy
     iters=0
+    HarryPlotter(f,xlo,xhi)
     low=deepcopy(xlo)
     high=deepcopy(xhi)
-    HarryPlotter(f,xlo,xhi)
-    while iters<= nmax:
+    while iters< nmax:
         iters+=1
         if 0-f(bracket(low,high))<0: 
-            high=deepcopy(bracket(low,high))
+            high=bracket(low,high)
         elif 0-f(bracket(low,high))>0:
-            low=deepcopy(bracket(low,high))
-        if abs((0-f(bracket(low,high))))<= xtol:
+            low=bracket(low,high)
+        if abs(f(bracket(low,high)))<= xtol:
             root=float(bracket(low,high))
             return (root, iters)  
+    HarryPlotter(f,xlo,xhi)
     return None
 
 def f1(x):
@@ -48,10 +49,24 @@ def f3(x):
     return np.sin(1. / (x + 0.01))
 
 def f4(x):
+    """
+    i=0
+    print("x_array is:")
+    print(x)
+    for num in x:
+        if num == 0.5:
+            np.remove(x[i])
+        else:
+            i+=1
+    """        
+    #print("x_val")
+    #print(x)
     return 1. / (x - 0.5)
 
 def HarryPlotter(f,xlo,xhi):
     x_vals=np.arange(xlo,xhi,1e-3)
+    print("x shit:")
+    print(x_vals)
     y_vals= f(x_vals)
     plt.plot(x_vals,y_vals)
     plt.grid()
@@ -60,96 +75,15 @@ def HarryPlotter(f,xlo,xhi):
     plt.ylabel('y')
     plt.show()
 
-for f in [f1,f2,f3,f4]:
+for f in [f4]:
     print("For function: "+ f.__name__)
     for xtol in [1e-3, 1e-6, 1e-12]:
         if rf_bisect(f,-1.,1.,xtol,19) == None:
             print ("Iteration limit exceeded")
         else:
-            (root, iters)=rf_bisect(f, -1., 1., xtol, 19)           #Buggy but right idea
+            (root, iters)=rf_bisect(f, -1., 1., xtol, 19)
             print('Root of '+ f.__name__ + ': ' + str(root))
             print('# iterations: ' + str(iters))
-            fval=f(root)
-            print(f.__name__ +' evaluated at root is: ' + str(fval))
+            #fval=f(root)
+            #print(f.__name__ +' evaluated at root is: ' + str(fval))
     print("")
-
-
-"""
-(root, iters)=rf_bisect(f1, -1., 1., 1e-3, 15)                  #Still buggy but wrong idea
-print('Root of f1: ' + str(root))
-print('# iterations: ' + str(iters))
-fval=f1(root)
-print('f1 evaluated at root is: ' + str(fval))
-print("")
-(root, iters)=rf_bisect(f1, -1., 1., 1e-6, 15)
-print('Root of f1: ' + str(root))
-print('# iterations: ' + str(iters))
-fval=f1(root)
-print('f1 evaluated at root is: ' + str(fval))
-print("")
-(root, iters)=rf_bisect(f1, -1., 1., 1e-12, 15)
-print('Root of f1: ' + str(root))
-print('# iterations: ' + str(iters))
-fval=f1(root)
-print('f1 evaluated at root is: ' + str(fval))
-print("")
-print('')
-
-(root, iters)=rf_bisect(f2, -1., 1., 1e-3, 15)
-print('Root of f2: ' + str(root))
-print('# iterations: ' + str(iters))
-fval=f2(root)
-print('f2 evaluated at root is: ' + str(fval))
-print('')
-(root, iters)=rf_bisect(f2, -1., 1., 1e-6, 15)
-print('Root of f2: ' + str(root))
-print('# iterations: ' + str(iters))
-fval=f2(root)
-print('f2 evaluated at root is: ' + str(fval))
-print("")
-(root, iters)=rf_bisect(f2, -1., 1., 1e-12, 15)
-print('Root of f2: ' + str(root))
-print('# iterations: ' + str(iters))
-fval=f2(root)
-print('f2 evaluated at root is: ' + str(fval))
-print("")
-print("")
-
-(root, iters)=rf_bisect(f3, -1., 1., 1e-3, 15)
-print('Root of f3: ' + str(root))
-print('# iterations: ' + str(iters))
-fval=f3(root)
-print('f3 evaluated at root is: ' + str(fval))
-print("")
-(root, iters)=rf_bisect(f3, -1., 1., 1e-6, 15)
-print('Root of f3: ' + str(root))
-print('# iterations: ' + str(iters))
-fval=f3(root)
-print('f3 evaluated at root is: ' + str(fval))
-print("")
-(root, iters)=rf_bisect(f3, -1., 1., 1-12, 15)
-print('Root of f3: ' + str(root))
-print('# iterations: ' + str(iters))
-fval=f3(root)
-print('f3 evaluated at root is: ' + str(fval))
-print("")
-print("")
-
-(root, iters)=rf_bisect(f4, -1., 1., 1e-3, 15)
-print('Root of f4: ' + str(root))
-print('# iterations: ' + str(iters))
-fval=f4(root)
-print('f4 evaluated at root is: ' + str(fval))
-print("")
-(root, iters)=rf_bisect(f4, -1., 1., 1e-6, 15)
-print('Root of f4: ' + str(root))
-print('# iterations: ' + str(iters))
-fval=f4(root)
-print('f4 evaluated at root is: ' + str(fval))
-print("")
-(root, iters)=rf_bisect(f4, -1., 1., 1e-12, 15)
-print('Root of f4: ' + str(root))
-print('# iterations: ' + str(iters))
-fval=f4(root)
-print('f4 evaluated at root is: ' + str(fval))
-"""
