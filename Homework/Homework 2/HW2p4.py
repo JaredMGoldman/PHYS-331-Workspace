@@ -1,5 +1,7 @@
-import numpy as np
+import numpy as np 
+from numpy import power as p
 import matplotlib.pyplot as plt
+from copy import deepcopy
 
 def bracket(lo, hi):
     return ((lo+hi)/2)
@@ -14,13 +16,13 @@ def HarryPlotter(f,xlo,xhi,xtol):
     plt.ylabel('y')
     plt.show()
 
-def feelTheBern(x):
+def feelTheBern(h):
     Q=1.2
     g=9.81
     b=1.8
     h0=0.6
     H=0.075
-    return Q**2/(2*g*b**2*x**2)-Q**2/(2*g*b**2*h0**2)-h0+x+H
+    return p(Q,2)*(p(h,2)-p(h0,2))+2*p(h0,2)*p(h,2)*p(b,2)*g*(h0-h-H)
     
 
 def rf_bisect(f,xlo,xhi,xtol,nmax):
@@ -36,7 +38,6 @@ def rf_bisect(f,xlo,xhi,xtol,nmax):
     RETURNS: (tuple(float, int)) A root of f that meets the tolerance tol the number 
     of iteratons required to converge.
     """
-    from copy import deepcopy
     iters=0
     low=deepcopy(xlo)
     high=deepcopy(xhi)
@@ -49,12 +50,23 @@ def rf_bisect(f,xlo,xhi,xtol,nmax):
             low=deepcopy(bracket(low,high))
         if abs((0-f(bracket(low,high))))<= xtol:
             root=float(bracket(low,high))
-            print (root, iters)
             return (root, iters)
     return "Iteration limit reached, no root found."
-
+    
+"""   
 (root,iters) = rf_bisect(feelTheBern, 0.0, 1., 1e-6, 1e5)
 print('Root of feelTheBern: ' + str(root))
 print('# iterations: ' + str(iters))
 fval=feelTheBern(root)
 print('feelTheBern evaluated at root is: ' + str(fval))
+"""
+f, xlo, xhi, xtol, nmax = feelTheBern, 0., 0.6, 1e-6, 1e6
+
+if type(rf_bisect(f, xlo, xhi, xtol, nmax)) == str:
+    print(rf_bisect(f, xlo, xhi, xtol, nmax))
+else:
+    (root,iters) = rf_bisect(f, xlo, xhi, xtol, nmax)
+    print('Root of', f.__name__, ':', str(root))
+    print('# iterations: ' + str(iters))
+    fval=feelTheBern(root)
+    print('feelTheBern evaluated at root is: ' + str(fval))
