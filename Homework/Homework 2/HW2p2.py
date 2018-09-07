@@ -1,8 +1,3 @@
-"""
-the interval x = (-1,1), with accuracy
-tolerances of 10−3, 10−6, and 10−12
-"""
-
 import numpy as np
 import matplotlib.pyplot as plt
 from copy import deepcopy
@@ -76,7 +71,7 @@ def HarryPlotter(f,xlo,xhi):
     plt.title("Problem 2, Function: "+ f.__name__)
     plt.xlabel('x')
     plt.ylabel('y')
-    #plt.show()
+    plt.show()
 
 def FuncShinUp(func,tol):
     """
