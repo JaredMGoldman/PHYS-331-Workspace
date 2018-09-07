@@ -44,29 +44,35 @@ def rf_bisect(f,xlo,xhi,xtol,nmax):
     HarryPlotter(f,xlo,xhi,xtol)
     while iters<= nmax:
         iters+=1
-        if 0-f(bracket(low,high))<0: 
+        if abs(f(bracket(low,high))+ f(high)) == (abs(f(bracket(low,high)))+ abs(f(high))): 
             high=deepcopy(bracket(low,high))
-        elif 0-f(bracket(low,high))>0:
+        elif abs(f(bracket(low,high))+ f(low)) == (abs(f(bracket(low,high)))+ abs(f(low))):
             low=deepcopy(bracket(low,high))
-        if abs((0-f(bracket(low,high))))<= xtol:
+        if abs(f(bracket(low,high)))<= xtol:
             root=float(bracket(low,high))
             return (root, iters)
     return "Iteration limit reached, no root found."
-    
-"""   
-(root,iters) = rf_bisect(feelTheBern, 0.0, 1., 1e-6, 1e5)
-print('Root of feelTheBern: ' + str(root))
-print('# iterations: ' + str(iters))
-fval=feelTheBern(root)
-print('feelTheBern evaluated at root is: ' + str(fval))
-"""
-f, xlo, xhi, xtol, nmax = feelTheBern, 0., 0.6, 1e-6, 1e6
+   
+f, xlo, xhi, xtol, nmax = feelTheBern, 0.0, 0.4, 1e-6, 1e6
 
 if type(rf_bisect(f, xlo, xhi, xtol, nmax)) == str:
     print(rf_bisect(f, xlo, xhi, xtol, nmax))
 else:
     (root,iters) = rf_bisect(f, xlo, xhi, xtol, nmax)
-    print('Root of', f.__name__, ':', str(root))
+    print('Root #1 of', f.__name__, ':', str(root))
+    print('# iterations: ' + str(iters))
+    fval=feelTheBern(root)
+    print('feelTheBern evaluated at root is: ' + str(fval))
+print("")
+
+
+f, xlo, xhi, xtol, nmax = feelTheBern, 0.4, 0.8, 1e-6, 1e6
+
+if type(rf_bisect(f, xlo, xhi, xtol, nmax)) == str:
+    print(rf_bisect(f, xlo, xhi, xtol, nmax))
+else:
+    (root,iters) = rf_bisect(f, xlo, xhi, xtol, nmax)
+    print('Root #2 of', f.__name__, ':', str(root))
     print('# iterations: ' + str(iters))
     fval=feelTheBern(root)
     print('feelTheBern evaluated at root is: ' + str(fval))
