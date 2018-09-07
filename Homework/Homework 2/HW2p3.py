@@ -1,14 +1,15 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from copy import deepcopy
+
+def f1(x):
+    return 3 * x + np.sin(2*x) - np.exp(x)
+
 def f2(x):
     return x**3
 
 def f3(x):
     return np.sin(1. / (x + 0.01))
-
-def f4(x):
-    return 1. / (x - 0.5)
 
 def bracket(lo, hi):
     """
@@ -114,7 +115,7 @@ def errorGopher(f,xvals):
     plt.grid()
     plt.show()
 
-for f in [f2,f3,f4]:
+for f in [f1,f2,f3]:
     print("For function " + f.__name__)
     print("")
     rf_bisect(f,-1.,1., 1e-12, 1e5)
