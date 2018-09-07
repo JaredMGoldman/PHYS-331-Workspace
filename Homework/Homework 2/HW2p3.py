@@ -62,22 +62,23 @@ def rf_bisect(f,xlo,xhi,xtol,nmax):
     iters=0
     low=deepcopy(xlo)
     high=deepcopy(xhi)
-    while iters<= nmax:
-        iters+=1
-        if 0-f(bracket(low,high))<0: 
-            x_array.append(bracket(low,high))
-            high=deepcopy(bracket(low,high))
-        elif 0-f(bracket(low,high))>0:
-            x_array.append(bracket(low,high))
-            low=deepcopy(bracket(low,high))
-        if abs((0-f(bracket(low,high))))<= xtol:
-            root=float(bracket(low,high))
-            x_array.append(root)
-            return PerryThePlotapus(f,x_array,xlo,xhi,xtol)
-    return "Iteration limit reached, no root found."
-
+    try:
+        while iters<= nmax:
+            iters+=1
+            if 0-f(bracket(low,high))<0: 
+                x_array.append(bracket(low,high))
+                high=deepcopy(bracket(low,high))
+            elif 0-f(bracket(low,high))>0:
+                x_array.append(bracket(low,high))
+                low=deepcopy(bracket(low,high))
+            if abs((0-f(bracket(low,high))))<= xtol:
+                root=float(bracket(low,high))
+                x_array.append(root)
+                return PerryThePlotapus(f,x_array,xlo,xhi,xtol)
+        return "Iteration limit reached, no root found."
+    except ZeroDivisionError:
+        print("Function", f.__name__, "has no root.")
 for f in [f2,f3,f4]:
     print("For function " + f.__name__)
-    print(rf_bisect(f,-1.,1., 1e-12, 1e5))
+    rf_bisect(f,-1.,1., 1e-12, 1e5)
     print("")
-print(rf_bisect(f3, -1., 1., 1e-12, 1e5))
