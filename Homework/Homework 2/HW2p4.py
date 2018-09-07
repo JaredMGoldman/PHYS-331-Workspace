@@ -3,10 +3,18 @@ from numpy import power as p
 import matplotlib.pyplot as plt
 from copy import deepcopy
 
-def bracket(lo, hi):
-    return ((lo+hi)/2)
-
 def HarryPlotter(f,xlo,xhi,xtol):
+    """
+    "The Chosen function"
+
+    INPUT:
+        f: function, this is the function graphed
+        xlo: float, lower bound of the graph of the function f
+        xhi: float, upper bound of the graph of the function f
+    
+    OUTPUT:
+        graph of function f over domain xlo-xhi with mesh size dx (definied within the function)
+    """
     x_vals=np.arange(xlo,xhi,xtol)
     y_vals= f(x_vals)
     plt.plot(x_vals,y_vals)
@@ -17,6 +25,13 @@ def HarryPlotter(f,xlo,xhi,xtol):
     plt.show()
 
 def feelTheBern(h):
+    """
+    INPUT: 
+        h: array, domain of Bernulli equation
+    
+    OUTPUT:
+        array, range corresponding to domain 'h' for Bernulli equation 
+    """
     Q=1.2
     g=9.81
     b=1.8
@@ -52,7 +67,20 @@ def rf_bisect(f,xlo,xhi,xtol,nmax):
             root=float(bracket(low,high))
             return (root, iters)
     return "Iteration limit reached, no root found."
-   
+
+def bracket(lo, hi):
+    """
+    INPUT:
+        lo: float, lower bound of bracket
+        hi: float, upper bound of bracket
+    
+    OUTPUT:
+        float, midpoint of the braketed region
+    """
+    return ((lo+hi)/2)
+
+#Root two
+
 f, xlo, xhi, xtol, nmax = feelTheBern, 0.0, 0.4, 1e-6, 1e6
 
 if type(rf_bisect(f, xlo, xhi, xtol, nmax)) == str:
@@ -65,6 +93,7 @@ else:
     print('feelTheBern evaluated at root is: ' + str(fval))
 print("")
 
+#Root two
 
 f, xlo, xhi, xtol, nmax = feelTheBern, 0.4, 0.8, 1e-6, 1e6
 
