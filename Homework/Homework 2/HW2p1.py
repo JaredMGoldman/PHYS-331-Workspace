@@ -38,11 +38,11 @@ def calcSum_64bit(delta):
 
 # Part b
 
-for i in range(-1,-6,-1):
-     print("For delta value of the float16-based function: " + "10^" + str(i) + " the sum of deltas that should equal one is: " + str(calcSum_16bit(10**i)))
-print("")
-for i in range(-1,-6,-1):
-     print("For delta value of the float32-based function: " + "10^" + str(i) + " the sum of deltas that should equal one is: " + str(calcSum_32bit(10**i)))
-print("")
-for i in range(-1,-6,-1):
-     print("For delta value of the float64-based function: " + "10^" + str(i) + " the sum of deltas that should equal one is: " + str(calcSum_64bit(10**i)))
+for i in range(-1,-7,-1):   #returns a message and values cooresponding to each function
+    print("For delta value of the float16-based function: " + "10^" + str(i) + " the sum of deltas that should equal one is: " + str(calcSum_16bit(10**i)))
+    print("")
+    print("For delta value of the float32-based function: " + "10^" + str(i) + " the sum of deltas that should equal one is: " + str(calcSum_32bit(10**i)))
+    print("")
+    print("For delta value of the float64-based function: " + "10^" + str(i) + " the sum of deltas that should equal one is: " + str(calcSum_64bit(10**i)))
+    print("")
+    print("")

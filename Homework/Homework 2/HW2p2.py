@@ -1,3 +1,4 @@
+#Required libraries
 import numpy as np
 import matplotlib.pyplot as plt
 from copy import deepcopy
@@ -15,19 +16,19 @@ def rf_bisect(f,xlo,xhi,xtol,nmax):
     RETURNS: (tuple(float, int)) A root of f that meets the tolerance tol the number 
     of iteratons required to converge.
     """
-    iters, low, high = 0, deepcopy(xlo), deepcopy(xhi)
-    HarryPlotter(f,xlo,xhi)
-    while iters< nmax:
+    iters, low, high = 0, deepcopy(xlo), deepcopy(xhi)  #variable definition section
+    HarryPlotter(f,xlo,xhi)                       #get the graph      
+    while iters< nmax:                            #Bisection search begins
         iters+=1
-        if 0-f(bracket(low,high))<0: 
+        if f(bracket(low,high))>0:                #determine position of midpoint relative to root
             high=bracket(low,high)
-        elif 0-f(bracket(low,high))>0:
+        elif f(bracket(low,high))<0:
             low=bracket(low,high)
-        if abs(f(bracket(low,high)))<= xtol:
+        if abs(f(bracket(low,high)))<= xtol:      #Determine if the midpoint is the root
             root=float(bracket(low,high))
             return (root, iters)  
     return None
-
+#Single variable function section
 def f1(x):
     return 3 * x + np.sin(2*x) - np.exp(x)
 
@@ -49,7 +50,7 @@ def bracket(lo, hi):
     OUTPUT:
         float, midpoint of the braketed region
     """
-    return ((lo+hi)/2)
+    return ((lo+hi)/2)                          #midpoint finder
 
 def HarryPlotter(f,xlo,xhi):
     """
@@ -63,12 +64,14 @@ def HarryPlotter(f,xlo,xhi):
     OUTPUT:
         graph of function f over domain xlo-xhi with mesh size dx (definied within the function)
     """
-    dx=1e-3
-    x_vals=np.arange(xlo,xhi+dx,dx)
-    y_vals= f(x_vals)
+    dx=1e-3                                         #Plot generator function
+    x_vals=np.arange(xlo,xhi+dx,dx)                 #Determine x and y values
+    y_vals= f(x_vals)                               
     plt.plot(x_vals,y_vals)
     plt.grid()
-    plt.title("Problem 2, Function: "+ f.__name__)
+    plt.axhline(color='black')
+    plt.axvline(color='black')
+    plt.title("Problem 2: Function "+ f.__name__)
     plt.xlabel('x')
     plt.ylabel('y')
     plt.show()
@@ -85,13 +88,13 @@ def FuncShinUp(func,tol):
         x-value of root
         y-value of root
         graph of function
-    """
-    for f in func:
-        print("For function: "+ f.__name__)
+    """                              #Function to call each combination of function and tolerence required for the problem
+    for f in func:                          #calls each function from list
+        print("For function "+ f.__name__)
         print("")
-        for xtol in tol:
-            xlo, xhi, nmax = -1., 1., 1e9
-            try:
+        for xtol in tol:                    #calls each tolerence from list
+            xlo, xhi, nmax = -1., 1., 50
+            try:                                                    #contingincy against potential asymptotic errors
                 if rf_bisect(f, xlo, xhi, xtol, nmax) == None:
                     print ("Iteration limit exceeded")
                 else:
@@ -107,4 +110,4 @@ def FuncShinUp(func,tol):
         print("")
         print("")
 
-FuncShinUp([f1,f2, f3, f4],[1e-3, 1e-6, 1e-12])
+FuncShinUp([f1,f2, f3, f4],[1e-3, 1e-6, 1e-12])         #Call it all

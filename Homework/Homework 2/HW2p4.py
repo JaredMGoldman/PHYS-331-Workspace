@@ -1,3 +1,4 @@
+#Necessary libraries
 import numpy as np 
 from numpy import power as p
 import matplotlib.pyplot as plt
@@ -15,8 +16,8 @@ def HarryPlotter(f,xlo,xhi,xtol):
     OUTPUT:
         graph of function f over domain xlo-xhi with mesh size dx (definied within the function)
     """
-    x_vals=np.arange(xlo,xhi,xtol)
-    y_vals= f(x_vals)
+    x_vals=np.arange(xlo,xhi,xtol)              #Plot generator function
+    y_vals= f(x_vals)                           #Determine x and y values
     plt.plot(x_vals,y_vals)
     plt.grid()
     plt.title("Bernulli Equation")
@@ -27,17 +28,17 @@ def HarryPlotter(f,xlo,xhi,xtol):
 def feelTheBern(h):
     """
     INPUT: 
-        h: array, domain of Bernulli equation
+        h: array, domain of Bernulli's equation
     
     OUTPUT:
-        array, range corresponding to domain 'h' for Bernulli equation 
+        array, range corresponding to domain 'h' for Bernulli's equation 
     """
-    Q=1.2
+    Q=1.2       #Bernulli's equation solved to equal zero with no h value in the denominator
     g=9.81
     b=1.8
     h0=0.6
     H=0.075
-    return p(Q,2)*(p(h,2)-p(h0,2))+2*p(h0,2)*p(h,2)*p(b,2)*g*(h0-h-H)
+    return p(Q,2)*(p(h,2)-p(h0,2))+2*p(h0,2)*p(h,2)*p(b,2)*g*(h0-h-H)   
     
 
 def rf_bisect(f,xlo,xhi,xtol,nmax):
@@ -57,10 +58,13 @@ def rf_bisect(f,xlo,xhi,xtol,nmax):
     low=deepcopy(xlo)
     high=deepcopy(xhi)
     HarryPlotter(f,xlo,xhi,xtol)
-    while iters<= nmax:
+    #Bisection begins
+    #Altered to be able to find both roots
+    #Reads relative sign between midpoint and bracket instead of sign of the function at midpoint
+    while iters<= nmax:             
         iters+=1
         if abs(f(bracket(low,high))+ f(high)) == (abs(f(bracket(low,high)))+ abs(f(high))): 
-            high=deepcopy(bracket(low,high))
+            high=deepcopy(bracket(low,high))  
         elif abs(f(bracket(low,high))+ f(low)) == (abs(f(bracket(low,high)))+ abs(f(low))):
             low=deepcopy(bracket(low,high))
         if abs(f(bracket(low,high)))<= xtol:
@@ -77,11 +81,11 @@ def bracket(lo, hi):
     OUTPUT:
         float, midpoint of the braketed region
     """
-    return ((lo+hi)/2)
+    return ((lo+hi)/2)  #Midpoint finder
 
-#Root two
+#Call root one
 
-f, xlo, xhi, xtol, nmax = feelTheBern, 0.0, 0.4, 1e-6, 1e6
+f, xlo, xhi, xtol, nmax = feelTheBern, 0.0, 0.4, 1e-6, 50      #correct bracketing for root one
 
 if type(rf_bisect(f, xlo, xhi, xtol, nmax)) == str:
     print(rf_bisect(f, xlo, xhi, xtol, nmax))
@@ -93,9 +97,9 @@ else:
     print('feelTheBern evaluated at root is: ' + str(fval))
 print("")
 
-#Root two
+#Call root two
 
-f, xlo, xhi, xtol, nmax = feelTheBern, 0.4, 0.8, 1e-6, 1e6
+f, xlo, xhi, xtol, nmax = feelTheBern, 0.4, 0.8, 1e-6, 50    #correct bracketing for root two
 
 if type(rf_bisect(f, xlo, xhi, xtol, nmax)) == str:
     print(rf_bisect(f, xlo, xhi, xtol, nmax))
