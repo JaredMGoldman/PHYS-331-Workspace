@@ -20,7 +20,6 @@ def rf_bisect(f,xlo,xhi,xtol,nmax):
     RETURNS: (tuple(float, int)) A root of f that meets the tolerance tol the number 
     of iteratons required to converge.
     """
-    from copy import deepcopy
     iters, low, high = 0, deepcopy(xlo), deepcopy(xhi)
     HarryPlotter(f,xlo,xhi)
     while iters< nmax:
@@ -34,9 +33,6 @@ def rf_bisect(f,xlo,xhi,xtol,nmax):
             return (root, iters)  
     return None
 
-def bracket(lo, hi):
-    return ((lo+hi)/2)
-
 def f1(x):
     return 3 * x + np.sin(2*x) - np.exp(x)
 
@@ -49,29 +45,63 @@ def f3(x):
 def f4(x):
     return 1. / (x - 0.5)
 
+def bracket(lo, hi):
+    return ((lo+hi)/2)
+
 def HarryPlotter(f,xlo,xhi):
-    x_vals=np.arange(xlo,xhi,1e-3)
+    """
+    "The Chosen function"
+    
+    INPUT:
+        f: function, this is the function graphed
+        xlo: float, lower bound of the graph of the function f
+        xhi: float, upper bound of the graph of the function f
+    
+    OUTPUT:
+        graph of function f over domain xlo-xhi with mesh size dx (definied within the function)
+    """
+    dx=1e-3
+    x_vals=np.arange(xlo,xhi+dx,dx)
     y_vals= f(x_vals)
     plt.plot(x_vals,y_vals)
     plt.grid()
     plt.title("Problem 2, Function: "+ f.__name__)
     plt.xlabel('x')
     plt.ylabel('y')
-    plt.show()
+    #plt.show()
 
-for f in [f1,f2, f3, f4]:
-    print("For function: "+ f.__name__)
-    for xtol in [1e-3, 1e-6, 1e-12]:
-        xlo, xhi, nmax = -1., 1., 1e9
-        try:
-            if rf_bisect(f, xlo, xhi, xtol, nmax) == None:
-                print ("Iteration limit exceeded")
-            else:
-                (root, iters)=rf_bisect(f, xlo, xhi, xtol, nmax)
-                print('Root of '+ f.__name__ + ': ' + str(root))
-                print('# iterations: ' + str(iters))
-                fval=f(root)
-                print(f.__name__ +' evaluated at root is: ' + str(fval))
-        except ZeroDivisionError:
-            print("Function", f.__name__, "has no root.")
-    print("")
+def FuncShinUp(func,tol):
+    """
+    INPUT: 
+        func: list, functions to find the roots of
+        tol: list, different tolerences to try functions at
+    
+    OUTPUT:
+        Name of function 
+        Number of iterations taken to find root
+        x-value of root
+        y-value of root
+        graph of function
+    """
+    for f in func:
+        print("For function: "+ f.__name__)
+        print("")
+        for xtol in tol:
+            xlo, xhi, nmax = -1., 1., 1e9
+            try:
+                if rf_bisect(f, xlo, xhi, xtol, nmax) == None:
+                    print ("Iteration limit exceeded")
+                else:
+                    (root, iters)=rf_bisect(f, xlo, xhi, xtol, nmax)
+                    print('Root of '+ f.__name__ + ': ' + str(root))
+                    print('# iterations: ' + str(iters))
+                    fval=f(root)
+                    print(f.__name__ +' evaluated at root is: ' + str(fval))
+                    print("")
+            except ZeroDivisionError:
+                print("Function", f.__name__, "has no root.")
+                print("")
+        print("")
+        print("")
+
+FuncShinUp([f1,f2, f3, f4],[1e-3, 1e-6, 1e-12])
