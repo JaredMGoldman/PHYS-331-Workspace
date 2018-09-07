@@ -1,8 +1,4 @@
 """
-2. Modify rf_bisect to instead return a tuple of two numpy arrays containing the sequence 
-of xmid and fmid (i.e., the sequence of middle points calculated by the algorithm and the 
-corresponding values of the function, at each iteration).
-
 3. For each of the functions f1(x), f2(x) and f3(x) of problem 2, compute the sequence of 
 xmid and fmid values using a tolerance of 10-12. Make a plot of each (xmid, fmid) over the 
 plot of the function itself. Use appropriate marker styles to visualize the individual data 
@@ -27,12 +23,34 @@ def f4(x):
     return 1. / (x - 0.5)
 
 def bracket(lo, hi):
+    """
+    INPUT:
+        lo: float, lower bound of bracket
+        hi: float, upper bound of bracket
+    
+    OUTPUT:
+        float, midpoint of the braketed region
+    """
     return ((lo+hi)/2)
 
 def PerryThePlotapus(f,x,xlo,xhi,xtol):
+    """
+    INPUT:
+        f: function, this is the function graphed
+        x: list, list of all midpoint values used to estimate root of function f
+        xlo: float, lower bound of the graph of the function f
+        xhi: float, upper bound of the graph of the function f
+        xtol: float, the largest error accepted in the root value of f
+    
+    OUTPUT:
+        graph of function f over the domain xlo to xhi with a mesh sixe dx (defined within the function)
+        subplot of the scatter of the values in the 'x' input and their cooresponding values on the function f
+        (x_array, y_array): tuple, (array form of 'x', array of cooresponding values on the function f)     
+    """
+    dx=1e-3
     x_array=np.asarray(x)
     y_array=f(x_array)
-    x_vals=np.arange(xlo,xhi,1e-3)
+    x_vals=np.arange(xlo,xhi+dx,dx)
     y_vals= f(x_vals)
     plt.scatter(x_array,y_array, color= "black")
     plt.plot(x_vals,y_vals)

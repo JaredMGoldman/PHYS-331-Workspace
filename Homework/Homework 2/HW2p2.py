@@ -46,12 +46,20 @@ def f4(x):
     return 1. / (x - 0.5)
 
 def bracket(lo, hi):
+    """
+    INPUT:
+        lo: float, lower bound of bracket
+        hi: float, upper bound of bracket
+    
+    OUTPUT:
+        float, midpoint of the braketed region
+    """
     return ((lo+hi)/2)
 
 def HarryPlotter(f,xlo,xhi):
     """
     "The Chosen function"
-    
+
     INPUT:
         f: function, this is the function graphed
         xlo: float, lower bound of the graph of the function f
