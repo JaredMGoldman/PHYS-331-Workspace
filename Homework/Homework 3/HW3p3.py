@@ -26,7 +26,7 @@ def newtonRaphson(f,df,a,b,tol,maxiter):
         fx = f(x)
         if fx == 0.0: return x
       # Tighten the brackets on the root 
-        if sign(fa) != sign(fx): b = x  
+        if np.sign(fa) != np.sign(fx): b = x  
         else: a = x
       # Try a Newton-Raphson step    
         dfx = df(x)
@@ -76,7 +76,8 @@ def HarryPlotter(f,xlo,xhi):
 	plt.title("Problem 3")
 	plt.axhline(color='black')
 	plt.axvline(color='black')
-	plt.ylim(-10,10)
+	plt.plot(x_vals, freq(x_vals))
+	plt.ylim(-100,100)
 	plt.xlabel('x')
 	plt.ylabel('y')
 	plt.show()
@@ -88,12 +89,12 @@ def freq(x):                                        #Called when reporting the a
 	m= 0.4415625
 	return np.power((np.power(x,4)*E*I/(m*np.power(L,3))),0.5)/(2*np.pi)
 
-a_b_vals={0.0:2.5,2.5:5.0}                  #Dictionary of bounds of the brackets around each root.        
+a_b_vals={0.0:2.5,2.5:5.0}                  		#Dictionary of bounds of the brackets around each root.        
 i=0
 for a in a_b_vals.keys():                           #Calls the function around each root
 	b= a_b_vals[a]
 	i+=1
 	f, df, tol, maxiter = f1, f_prime, 1e-8, 30
 	print("")
-	print('Fundemental frequency', str(i), 'is', str(freq(newtonRaphson(f,f_prime,a,b,tol,maxiter))), 'Hz')
+	print('Fundemental frequency', str(i), 'is', str(freq(newtonRaphson(f,f_prime,a,b,tol,maxiter))), 'Hz', "beta:",str(newtonRaphson(f,f_prime,a,b,tol,maxiter)) )
 HarryPlotter(f,-10,10)
