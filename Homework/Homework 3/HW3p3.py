@@ -89,12 +89,12 @@ def freq(x):                                        #Called when reporting the a
 	m= 0.4415625
 	return np.power((np.power(x,4)*E*I/(m*np.power(L,3))),0.5)/(2*np.pi)
 
-a_b_vals={0.0:2.5,2.5:5.0,7.5:8.0}                  #Dictionary of bounds of the brackets around each root.        
+a_b_vals={0.0:2.5,2.5:5.0}                  #Dictionary of bounds of the brackets around each root.        
 i=0
 for a in a_b_vals.keys():                           #Calls the function around each root
 	b= a_b_vals[a]
 	i+=1
 	f, df, tol, maxiter = f1, f_prime, 1e-8, 30
-	print('Fundemental frequency', str(i), 'is', str(freq(newtonRaphson(f,f_prime,a,b,tol,maxiter))), 'Hertz')
 	print("")
+	print('Fundemental frequency', str(i), 'is', str(freq(newtonRaphson(f,f_prime,a,b,tol,maxiter))), 'Hz')
 HarryPlotter(f,-10,10)
