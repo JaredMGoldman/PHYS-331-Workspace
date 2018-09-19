@@ -39,7 +39,7 @@ def rf_bisect(f,xlo,xhi,xtol,nmax):
             return (root, iters)  
     return None
 
-def f1(x):
+def f1(x):                                        #Function in question
     return np.power(x,3)-600
 
 def HarryPlotter(f,xlo,xhi):
@@ -65,7 +65,7 @@ def HarryPlotter(f,xlo,xhi):
 	plt.xlabel('x')
 	plt.ylabel('y')
 	plt.show()
-
+#Call the function over the appropriate interval.
 f, xlo, xhi, xtol, nmax = f1, 8, 9, 0.1, 30
 (root, iters)=rf_bisect(f,xlo,xhi,xtol,nmax)
 print('The root of the function', f.__name__, 'is at x =', str(root),'after', str(iters),'iterations.')

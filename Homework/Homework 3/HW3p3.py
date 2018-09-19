@@ -82,16 +82,16 @@ def HarryPlotter(f,xlo,xhi):
 	plt.ylabel('y')
 	plt.show()
 
-def freq(x):
+def freq(x):                                        #Called when reporting the actual frequencies at the roots.
 	L= 0.9
 	E= 2e11
 	I= 3.2552e-11
 	m= 0.4415625
 	return np.power((np.power(x,4)*E*I/(m*np.power(L,3))),0.5)/(2*np.pi)
 
-a_b_vals={0.0:2.5,2.5:5.0,7.5:8.0}
+a_b_vals={0.0:2.5,2.5:5.0,7.5:8.0}                  #Dictionary of bounds of the brackets around each root.        
 i=0
-for a in a_b_vals.keys():
+for a in a_b_vals.keys():                           #Calls the function around each root
 	b= a_b_vals[a]
 	i+=1
 	f, df, tol, maxiter = f1, f_prime, 1e-8, 30

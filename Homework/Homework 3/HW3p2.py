@@ -2,22 +2,22 @@ import matplotlib.pyplot as plt
 import numpy as np
 from decimal import *
 
-def f(x):
+def f1(x):
     return np.power(x,5)-3*np.power(x,3)+15*np.power(x,2)+27*x+9
 
-def f_prime(x):
+def f1_prime(x):
     return 5*np.power(x,4)-9*np.power(x,2)+30*x+27
 
 def Newt(f,f_prime,x0,tol):
     i=0
-    while abs(f(x0))>=tol:
-        #print(str(x0),str(f(x0)),str(f_prime(x0)),str(i))
-        i+=1
+    while abs(f(x0))>=tol:                          #Had to use 'Decimal' in order to calculate roots with a tolerance of 1e-15;                       
+        i+=1                                        #otherwise, the computer could not compute the root to enough percision.
         x0 = Decimal(x0)-(Decimal(f(x0))/Decimal(f_prime(x0)))
-        if i==30:
-            return print("foo")
+        if i == 40:
+            return print("Iteration limit exceeded")  
     print("One root of function:", f.__name__, "is at x =", str(x0), "Iteration Number:",str(i))
     
+
 
 def HarryPlotter(f,xlo,xhi):
     """
@@ -43,7 +43,7 @@ def HarryPlotter(f,xlo,xhi):
     plt.ylim(-10,10)
     plt.ylabel('y')
     plt.show()
-#for x in [0,-1,-2]:
- #   f, f_prime, x0, tol = f, f_prime, Decimal(x), 1e-15
-  #  Newt(f,f_prime,x0,tol)
+for x in [0,-1,-2]:
+    f, f_prime, x0, tol = f1, f1_prime, Decimal(x), 1e-15
+    Newt(f,f_prime,x0,tol)
 HarryPlotter(f,-4,1)
