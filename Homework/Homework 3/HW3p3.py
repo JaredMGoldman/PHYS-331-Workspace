@@ -13,13 +13,12 @@ import matplotlib.pyplot as plt
     Calls user-supplied functions f(x) and its derivative df(x).   
     tol is the tolerance, and maxiter is the maximum number of iterations..
 ''' 
-def newtonRaphson(f,df,a,b,tol,maxiter): 
-    from numpy import sign    
+def newtonRaphson(f,df,a,b,tol,maxiter):  
     fa = f(a)
     if fa == 0.0: return a
     fb = f(b)
     if fb == 0.0: return b
-    if sign(fa) == sign(fb): 
+    if np.sign(fa) == np.sign(fb): 
         print('Root is not bracketed')
         return []
     x = 0.5*(a + b)                    
