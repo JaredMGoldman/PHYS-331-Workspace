@@ -83,50 +83,49 @@ def funcshinup(funcs,xlo,xhi):
 #Part c
 
 def fixed_pt(g,xstart,tol,nmax):
-    x=xstart
+    x0=xstart
+    x= deepcopy(x0)
     i=0
     #error_vals=np.array([])
     while i<=nmax:
         i+=1
-        x = g(x)
+        x = g(x0)
         #error_vals=np.append(error_vals, np.abs(x-x0))
-        if abs(f(x))<=tol:
+        if abs(x-x0)<=tol:
             #PlottingAlong(error_vals)
             return x
         #print('x:',x)
-        #x0= deepcopy(x)
+        x0= deepcopy(x)
     return "Iteration limit exceeded"
 
-def PlottingAlong(error):
-    """
-    #INPUT:
-    #error: numpy array, values of error
-    """                                                 #Plot generator function
-    x_vals=np.arange(1,len(error)+1)                #Determine x and y values
-    y_vals=error
-    plt.plot(x_vals,y_vals)
-    plt.grid()
-    plt.axhline(color='black')
-    plt.axvline(color='black')
-    plt.title("Error vs. Iteration")
-    plt.xlabel('x')
-    plt.ylabel('y')
-    plt.yscale('log')
-    plt.show()
+# def PlottingAlong(error):
+#     """
+#     #INPUT:
+#     #error: numpy array, values of error
+#     """                                                 #Plot generator function
+#     x_vals=np.arange(1,len(error)+1)                #Determine x and y values
+#     y_vals=error
+#     plt.plot(x_vals,y_vals)
+#     plt.grid()
+#     plt.axhline(color='black')
+#     plt.axvline(color='black')
+#     plt.title("Error vs. Iteration")
+#     plt.xlabel('x')
+#     plt.ylabel('y')
+#     plt.yscale('log')
+#     plt.show()
 
 def CodeOfCalling(nmax):
     tol=1e-6
     for g in [g1,g2,g3]:
         if g==g1:
-            for xstart in [0, 0]:
-                print(fixed_pt(g,xstart,tol,nmax))
-                print(xstart)
-                break
+            for xstart in [-0.77, -1.86]:
+                print('For function',g.__name__,':',str(fixed_pt(g,xstart,tol,nmax)))
         if g==g2:
             for xstart in [-0.74,-1.87]:
-                print(fixed_pt(g,xstart,tol,nmax))
+                print('For function',g.__name__,':',str(fixed_pt(g,xstart,tol,nmax)))
         if g==g3:
             for xstart in [-0.69, -1.87]:
-                print(fixed_pt(g,xstart,tol,nmax))
+                print('For function',g.__name__,':',str(fixed_pt(g,xstart,tol,nmax)))
 
 CodeOfCalling(30)
