@@ -95,19 +95,19 @@ def HarryPlotter(f,xlo,xhi,func_num):
 
 
 def plotcaller0(funcs,xlo,xhi):
-    """
-    INPUT:
-        funcs: list of tuples, each function wished to be graph in increasing numerical order
-    OUTPUTS:
-        subplot of all functions from the funcs list
-    """
+	"""
+	INPUT:
+		funcs: list of tuples, each function wished to be graph in increasing numerical order
+	OUTPUTS:
+		subplot of all functions from the funcs list
+	"""
 	i=0
-    for packet in funcs:
-        i+= 1
-        func_num=i
-        for f in packet:
-            HarryPlotter(f,xlo,xhi,func_num)
-        plt.show()
+	for packet in funcs:
+		i+= 1
+		func_num=i
+		for f in packet:
+			HarryPlotter(f,xlo,xhi,func_num)
+		plt.show()
 
 xlo, xhi, funcs = -10, 10, [(g1,dg1,dg1_abs,diagonal,horizontal),(g2,dg2,dg2_abs,diagonal,horizontal),(g3,dg3,dg3_abs,diagonal,horizontal)]
 
