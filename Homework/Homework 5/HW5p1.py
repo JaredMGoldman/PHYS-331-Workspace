@@ -1,5 +1,3 @@
-#derived equations go to pdf
-
 import numpy as np
 import matplotlib.pyplot as plt
 from copy import deepcopy
@@ -60,48 +58,16 @@ def matrix_mult(m1,m2):
 				matrix_product[ra,cb] = newentry			
 	return matrix_product
 
-
-# for vec in [[[1],[0]],[[-1],[0]],[[0],[1]],[[0],[-1]],[[-1],[-1]],[[1],[1]],[[1],[-1]],[[-1],[1]],[[0],[0]]]:
-# 	F_system, Jinv_system, x_vec0, tol, maxiter = F, Jinv, np.array(vec), 1e-5, 1000
-# 	if type(rf_newtonraphson2d(F_system, Jinv_system, x_vec0, tol, maxiter))== str:
-# 		print(rf_newtonraphson2d(F_system, Jinv_system, x_vec0, tol, maxiter))
-# 	else:
-# 		coordinates = rf_newtonraphson2d(F_system, Jinv_system, x_vec0, tol, maxiter)
-# 		x_val = coordinates[0,0]
-# 		y_val = coordinates[1,0]
-#		print("For the coordinate pair: (" + str(x_vec0[0,0]) + "," + str(x_vec0[1,0]) + ") the system converges at (" + str(x_val) + "," + str(y_val) + ")" )
-
-
-def rootfinder(r_vec,root):
-	if root == 0:
-		root_vec = np.array([[1.1582991206988713],[-0.12470628436608913]])
-	elif root == 1:
-		root_vec = np.array([[-0.4711515991533634],[1.0654703215184704]])
-	elif root == 2:
-		root_vec = np.array([[-0.6871487636032881],[-0.9407625743679481]])
-	xr0 = r_vec[0,0]
-	yr0 = r_vec[1,0]
-	xr1 = root_vec[0,0]
-	yr1 = root_vec[1,0]
-	a = np.power(xr0-xr1,2)
-	b = np.power(yr0-yr1, 2)
-	return np.sqrt(a+b)
-
-
-my_array=np.array([[],[]])
-xlo, xhi, dx = -1.5, 1.5, 8e-2
-for x in np.arange(xlo,xhi+dx,dx):
-	for y in np.arange(xlo,xhi+dx,dx):
-		my_array=np.array([[x],[y]])
-		F_system, Jinv_system, x_vec0, tol, maxiter = F, Jinv, my_array, 1e-5, 1000
-		r_vec = rf_newtonraphson2d(F_system, Jinv_system, x_vec0, tol, maxiter)
-		if rootfinder(r_vec,0) <= tol:
-			plt.scatter(x,y,color='y')
-		elif rootfinder(r_vec,1) <= tol:
-			plt.scatter(x,y,color='m')
-		elif rootfinder(r_vec,2) <= tol:
-			plt.scatter(x,y,color='c')
+def main():
+	for vec in [[[1],[0]],[[-1],[0]],[[0],[1]],[[0],[-1]],[[-1],[-1]],[[1],[1]],[[1],[-1]],[[-1],[1]],[[0],[0]]]:
+		F_system, Jinv_system, x_vec0, tol, maxiter = F, Jinv, np.array(vec), 1e-5, 1000
+		if type(rf_newtonraphson2d(F_system, Jinv_system, x_vec0, tol, maxiter))== str:
+			print(rf_newtonraphson2d(F_system, Jinv_system, x_vec0, tol, maxiter))
 		else:
-			plt.scatter(x,y,c='k')
-plt.show()
+			coordinates = rf_newtonraphson2d(F_system, Jinv_system, x_vec0, tol, maxiter)
+			x_val = coordinates[0,0]
+			y_val = coordinates[1,0]
+			print("For the coordinate pair: (" + str(x_vec0[0,0]) + "," + str(x_vec0[1,0]) + ") the system converges at (" + str(x_val) + "," + str(y_val) + ")" )
 
+
+main()
