@@ -30,6 +30,19 @@ def Jinv(x_vec):
 	return np.array([[a*c,b*c],[-1*b*c,a*c]])
 
 def rf_newtonraphson2d(F_system, Jinv_system, x_vec0, tol, maxiter):
+	"""
+	INPUTS:
+		F_system:		Main transformation function, takes a 2d numpy array vector.
+		Jinv_system:	Inverse of Jacobian of the output of F_system, taked a 2d numpy array vector.
+		x_vec0:			2d numpy array vector of the form [[x],[y]].
+		tol:			Float, desired accuracy of roots.
+		maxiter:		int, iteration limit of root-finding function.
+	
+	OUTPUT:
+		x_vec:			2d numpy array vector of root.
+	
+	Multi-dimensional root-finding function.
+	"""
 	x_vec = x_vec0
 	for i in range(0,maxiter):
 		dx = matrix_mult(Jinv_system(x_vec),F_system(x_vec))
@@ -43,6 +56,14 @@ def rf_newtonraphson2d(F_system, Jinv_system, x_vec0, tol, maxiter):
 
 
 def matrix_mult(m1,m2):
+	"""
+	INPUTS:
+		m1,m2: numpy arrays of shape (m,n), (n,m) respectively where (m == n or m != n)
+	OUTPUT:
+		matrix product: numpy array of shape (m,n)
+
+	Function that takes two matricies and returns their product.
+	"""
 	(r1,c1) = m1.shape
 	(r2,c2) = m2.shape
 	if c1 != r2:
@@ -59,7 +80,16 @@ def matrix_mult(m1,m2):
 	return matrix_product
 
 def main():
-	for vec in [[[1],[0]],[[-1],[0]],[[0],[1]],[[0],[-1]],[[-1],[-1]],[[1],[1]],[[1],[-1]],[[-1],[1]],[[0],[0]]]:
+	"""
+	INPUTS:
+		NONE
+	OUTPUTS:
+		Roots calculated through use of designated starting values.
+	
+	Function caller.
+	"""
+	points = [[[1],[0]],[[-1],[0]],[[0],[1]],[[0],[-1]],[[-1],[-1]],[[1],[1]],[[1],[-1]],[[-1],[1]],[[0],[0]]]
+	for vec in points:
 		F_system, Jinv_system, x_vec0, tol, maxiter = F, Jinv, np.array(vec), 1e-5, 1000
 		if type(rf_newtonraphson2d(F_system, Jinv_system, x_vec0, tol, maxiter))== str:
 			print(rf_newtonraphson2d(F_system, Jinv_system, x_vec0, tol, maxiter))
@@ -67,7 +97,7 @@ def main():
 			coordinates = rf_newtonraphson2d(F_system, Jinv_system, x_vec0, tol, maxiter)
 			x_val = coordinates[0,0]
 			y_val = coordinates[1,0]
-			print("For the coordinate pair: (" + str(x_vec0[0,0]) + "," + str(x_vec0[1,0]) + ") the system converges at (" + str(x_val) + "," + str(y_val) + ")" )
+			print("For the coordinate pair: (" + str(x_val) + "," + str(y_val) + ") the system converges at (" + str(x_val) + "," + str(y_val) + ")" )
 
 
 main()
