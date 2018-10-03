@@ -152,12 +152,12 @@ def nrcmpx(xlo, xhi, dx, func, dfunc, tol, nmax):
 					np.append(z_vals, z)
 					break
 				z += dz
-	plt.contourf([x_vals, y_vals], z_vals, cmap = 'viridis')
+	plt.imshow(np.array(x_vals, y_vals, z_vals), cmap = 'viridis')
 	plt.colorbar()
 	plt.show()
 
 
-xlo, xhi, dx, func, dfunc, tol, nmax = -1.5, 1.5, 1e-3, f, df, 1e-5, 1000
+xlo, xhi, dx, func, dfunc, tol, nmax = -1.5, 1.5, 1e-1, f, df, 1e-5, 1000
 nrcmpx(xlo, xhi, dx, func, dfunc, tol, nmax)
 
 
