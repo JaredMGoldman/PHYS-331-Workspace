@@ -14,7 +14,7 @@ def problem1():
     for num in range(1,202):
         if num % 7 == 0:
             print(num)
-problem1()
+#roblem1()
 
 #-------------------------------------------
 # Problem 2
@@ -55,7 +55,7 @@ def f2(x):
     return 8*np.power(x,3)-2*np.power(x,2)+3
 
 
-HarryPlotter(f2,-2,2)
+#HarryPlotter(f2,-2,2)
 
 #-------------------------------------------
 # Problem 4
@@ -83,4 +83,4 @@ def search141(array):           # Accurate to roughly 1.4375e-14
         i += 1     
     print("No elements above 141 found.")
 
-#-------------------------------------------
+search141([141, 142,143,145])
