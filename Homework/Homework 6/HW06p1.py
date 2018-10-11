@@ -5,7 +5,45 @@ from matplotlib import rcParams
 from scipy.optimize import leastsq
 from scipy.interpolate import interp1d
 
+
 rcParams['font.family']='Skia'
+
+
+def matrix_mult(m1,m2):
+	"""
+	INPUTS:
+		m1,m2: numpy arrays of shape (m,n), (n,m) respectively where (m == n or m != n)
+	OUTPUT:
+		matrix product: numpy array of shape (m,n)
+
+	Function that takes two matricies and returns their product.
+	"""
+	(r1,c1) = m1.shape
+	(r2,c2) = m2.shape
+	if c1 != r2:
+		return "Error, incorect matricies computed. Please reenter matricies with appropriate dimensions."
+	newentry=0
+	matrix_product = np.zeros((c1,c2))
+	for ra in range (0,r1):
+		for cb in range (0, c2):
+			for ca in range(0,c1):
+				newentry = 0
+				for rb in range(0,r2):
+					newentry += (m1[ra,rb] * m2[rb,cb])
+				matrix_product[ra,cb] = newentry			
+	return matrix_product
+
+
+def datafinder():
+	myvals = np.loadtxt('HW6p1data.csv', delimiter = ',' )
+	nicevals = np.transpose(myvals)
+	return nicevals
+
+
+
+# ---------------------------------------
+# Part c
+
 
 def Jinv():
 	return np.array([[380.3974626838066,-222.7529754620734],[-2906.856476518258,19482.28900443848]])
@@ -49,60 +87,6 @@ def rf_newtonraphson2d(F_system, Jinv_system, x_vec0, tol, maxiter):
 	return "Error: Iteration limit exceeded."
 
 
-def matrix_mult(m1,m2):
-	"""
-	INPUTS:
-		m1,m2: numpy arrays of shape (m,n), (n,m) respectively where (m == n or m != n)
-	OUTPUT:
-		matrix product: numpy array of shape (m,n)
-
-	Function that takes two matricies and returns their product.
-	"""
-	(r1,c1) = m1.shape
-	(r2,c2) = m2.shape
-	if c1 != r2:
-		return "Error, incorect matricies computed. Please reenter matricies with appropriate dimensions."
-	newentry=0
-	matrix_product = np.zeros((c1,c2))
-	for ra in range (0,r1):
-		for cb in range (0, c2):
-			for ca in range(0,c1):
-				newentry = 0
-				for rb in range(0,r2):
-					newentry += (m1[ra,rb] * m2[rb,cb])
-				matrix_product[ra,cb] = newentry			
-	return matrix_product
-
-
-def main():
-	"""
-	INPUTS:
-		NONE
-	OUTPUTS:
-		Roots calculated through use of designated starting values. (values of c1 and c2)
-	
-	Function caller.
-	"""
-	points = [[[50],[50]]]
-	for vec in points:
-		vec = np.array(vec)
-		print(vec)
-		F_system, Jinv_system, x_vec0, tol, maxiter = F, Jinv, np.array(vec), 1e-5, 1000
-		if type(rf_newtonraphson2d(F_system, Jinv_system, x_vec0, tol, maxiter))== str:
-			print(rf_newtonraphson2d(F_system, Jinv_system, x_vec0, tol, maxiter))
-		else:
-			coordinates = rf_newtonraphson2d(F_system, Jinv_system, x_vec0, tol, maxiter)
-			x_val = coordinates[0,0]
-			y_val = coordinates[1,0]
-			print("For the coordinate pair: (" + str(vec[0,0]) + "," + str(vec[1,0]) + ") the system converges at (" + str(x_val) + "," + str(y_val) + ")" )
-
-
-def datafinder():
-	myvals = np.loadtxt('HW6p1data.csv', delimiter = ',' )
-	nicevals = np.transpose(myvals)
-	return nicevals
-
-
 def HarryPlotter(a):
 	"""
 	"The Chosen function"
@@ -140,6 +124,27 @@ def partc1(a):
 			i+=1
 
 
+def main():
+	"""
+	INPUTS:
+		NONE
+	OUTPUTS:
+		Values of c1 and c2
+	"""
+	points = [[[50],[50]]]
+	for vec in points:
+		vec = np.array(vec)
+		print(vec)
+		F_system, Jinv_system, x_vec0, tol, maxiter = F, Jinv, np.array(vec), 1e-5, 1000
+		if type(rf_newtonraphson2d(F_system, Jinv_system, x_vec0, tol, maxiter))== str:
+			print(rf_newtonraphson2d(F_system, Jinv_system, x_vec0, tol, maxiter))
+		else:
+			coordinates = rf_newtonraphson2d(F_system, Jinv_system, x_vec0, tol, maxiter)
+			x_val = coordinates[0,0]
+			y_val = coordinates[1,0]
+			print("For the coordinate pair: (" + str(vec[0,0]) + "," + str(vec[1,0]) + ") the system converges at (" + str(x_val) + "," + str(y_val) + ")" )
+
+
 def L(v, gamma, v0):
 	a = 1/np.pi
 	b = np.power(v-v0,2)
@@ -168,6 +173,7 @@ plt.show()
 #------------------------------
 #Part d
 
+
 x = np.array([c1,c2,v01,v02,gamma1, gamma2])
 def ModelSpectrum2(x,v):
 	c1 = x[0]
@@ -185,12 +191,13 @@ v, Sv, func = a[0], a[1], ModelSpectrum2
 def Residuals(x, v, Sv):
 	return Sv - ModelSpectrum2(x,v)
 
+
 def residualplot(x, v, Sv,func):
 	x_vals = np.arange(20000,21001,1)
 	plt.plot(v, Sv, label = "Data")
 	plt.scatter(v, Residuals(x,v,Sv), label = "Residuals")
 	plt.plot(x_vals, func(x,x_vals),label = "Model")
-	plt.title(r"Residuals of $\frac{1}{\pi} \frac{\frac{1}{2} \Gamma}{(v-v_0)^2 + (\frac{1}{2} \Gamma)^2}$", fontdict = {'verticalalignment': 'bottom', 'horizontalalignment':'center'})
+	plt.title(r"Residuals of $c_1L_1(v)+c_2L_2(v)$", fontdict = {'verticalalignment': 'bottom', 'horizontalalignment':'center'})
 	plt.xlabel('Wavenumber (v)')
 	plt.ylabel('Optical Intensity (S(v))')
 	plt.axhline(color = 'black')
@@ -204,12 +211,14 @@ residualplot(x,v,Sv,func)
 
 #--------------------------------
 #Part f
-res = Residuals
+myres = Residuals
 
-def leastsqplot(x0, v, Sv, res):
-	x, cov_x = leastsq(res, x0, args = (Sv, v))
-	yvals = ModelSpectrum2(x,v)
-	plt.plot(v, yvals, label = 'Least Squares')
+def leastsqplotf(x0, v, Sv, myres):
+	goodv = np.arange(20000, 21001, 1)
+	res = leastsq(myres, x0, args = (Sv, v))
+	x1 = res[0]
+	yvals = ModelSpectrum2(x1,goodv)
+	plt.plot(goodv, yvals, label = 'Least Squares')
 	plt.plot(v, Sv, label = "Data")
 	plt.xlabel('Wavenumber (v)')
 	plt.ylabel('Optical Intensity (S(v))')
@@ -220,4 +229,49 @@ def leastsqplot(x0, v, Sv, res):
 	plt.xlim(20000,21000)
 	plt.show()
 
-leastsqplot(x,v,Sv,res)
+leastsqplotf(x,v,Sv,myres)
+
+#---------------------------------
+# Part g
+
+def leastsqplotg(x0, v, Sv, myres):
+	goodv = np.arange(20000, 21001, 1)
+	res = leastsq(myres, x0, args = (Sv, v))
+	x1 = res[0]
+	yvals = ModelSpectrum2(x1,goodv)
+	yvals1 = myres(x1,v,Sv)
+	plt.scatter(v, yvals1, label = 'Least Squares Residuals')
+	plt.plot(goodv, yvals, label = 'Least Squares')
+	plt.plot(v, Sv, label = "Data")
+	plt.xlabel('Wavenumber (v)')
+	plt.ylabel('Optical Intensity (S(v))')
+	plt.title('Least Squares Fitting and Residual')
+	plt.axhline(color = 'black')
+	plt.legend()
+	plt.grid()
+	plt.xlim(20000,21000)
+	plt.show()
+
+leastsqplotg(x,v,Sv,myres)
+
+#----------------------------------
+#Part h
+
+def leastsqploth(x0, v, Sv, myres):
+	goodv = np.arange(20000, 21001, 1)
+	res = leastsq(myres, x0, args = (Sv, v))
+	x1 = res[0]
+	yvals = ModelSpectrum2(x1,goodv)
+	# yvals1 = myres(x1,v,Sv)
+	plt.plot(goodv, yvals, label = 'Least Squares', color = 'violet')
+	plt.scatter(v, Sv, label = "Data", color = 'green')
+	plt.xlabel('Wavenumber (v)')
+	plt.ylabel('Optical Intensity (S(v))')
+	plt.title('Least Squares Fitting vs. Original')
+	plt.axhline(color = 'black')
+	plt.legend()
+	plt.grid()
+	plt.xlim(20000,21000)
+	plt.show()
+
+leastsqploth(x,v,Sv,myres)
