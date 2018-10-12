@@ -114,7 +114,7 @@ print('--------------------------')
 
 
 def matrixgenerator():
-    """
+	"""
 	INPUTS:
 		n: manual input, int, dimensions of triangular system
 		upperOrLower: 1 or 0, determines wheter or not it is upper or lower triangular
@@ -125,37 +125,37 @@ def matrixgenerator():
 
 	"""
 	n = int(input('Input a value, n, the dimension of the resulting matrix: '))
-    upperOrLower = int(input('Input 0 for lower triangular and 1 for upper triangular matrix: '))
-    
-    mymatrix = np.zeros((n,n)) 
-    mymatrix1 = np.zeros((n,1))
+	upperOrLower = int(input('Input 0 for lower triangular and 1 for upper triangular matrix: '))
+	
+	mymatrix = np.zeros((n,n)) 
+	mymatrix1 = np.zeros((n,1))
 
-    if upperOrLower == 1:
-        start = 0
-        for i in range(0,n):
-                first = True
-                for j in range(start,n):
-                    if first:
-                        while abs(mymatrix[i,j]) <= 1e-5: 
-                            mymatrix[i,j] = np.random.randn()
-                    else:
-                        mymatrix[i,j] = np.random.randn()
-                    first = False
-                start += 1
+	if upperOrLower == 1:
+		start = 0
+		for i in range(0,n):
+				first = True
+				for j in range(start,n):
+					if first:
+						while abs(mymatrix[i,j]) <= 1e-5: 
+							mymatrix[i,j] = np.random.randn()
+					else:
+						mymatrix[i,j] = np.random.randn()
+					first = False
+				start += 1
 
-    if upperOrLower == 0:
-        end = 1
-        for i in range(0,n):
-            for j in range(0,end):
-                if j == (end - 1):
-                        while abs(mymatrix[i,j]) <= 1e-5: 
-                            mymatrix[i,j] = np.random.randn()
-                else:
-                    mymatrix[i,j] = np.random.randn()
-            end += 1
-    else:
+	if upperOrLower == 0:
+		end = 1
+		for i in range(0,n):
+			for j in range(0,end):
+				if j == (end - 1):
+						while abs(mymatrix[i,j]) <= 1e-5: 
+							mymatrix[i,j] = np.random.randn()
+				else:
+					mymatrix[i,j] = np.random.randn()
+			end += 1
+	else:
 		return "Please reenter a value of 0 or 1 for the value of the triangular matrix"
-    for i1 in range(0,n):
-        mymatrix1[i1,0] = np.random.randn()
+	for i1 in range(0,n):
+		mymatrix1[i1,0] = np.random.randn()
 
-    return mymatrix, mymatrix1
+	return mymatrix, mymatrix1
