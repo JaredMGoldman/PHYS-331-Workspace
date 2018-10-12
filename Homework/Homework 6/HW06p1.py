@@ -35,6 +35,9 @@ def matrix_mult(m1,m2):
 
 
 def datafinder():
+	"""
+	loads the data from the csv document and returns numpy array of experimental values of v and S(v)
+	"""
 	myvals = np.loadtxt('HW6p1data.csv', delimiter = ',' )
 	nicevals = np.transpose(myvals)
 	return nicevals
@@ -46,10 +49,17 @@ def datafinder():
 
 
 def Jinv():
+	"""
+	inverse of Jacobian for mutidimensional NR method
+	used to estimate the values of c1 and c2 for the best guess
+	"""
 	return np.array([[380.3974626838066,-222.7529754620734],[-2906.856476518258,19482.28900443848]])
 	
 
 def F(x_vec):
+	"""
+	set of functinos used in multidimensional NR method
+	"""
 	c1 = x_vec[0,0]
 	c2 = x_vec[1,0]
 	L_11 = 0.002880503018073279
@@ -187,6 +197,8 @@ def ModelSpectrum2(x,v):
 
 #-------------------------------
 #Part e
+
+
 v, Sv, func = a[0], a[1], ModelSpectrum2
 def Residuals(x, v, Sv):
 	return Sv - ModelSpectrum2(x,v)
@@ -206,16 +218,20 @@ def residualplot(x, v, Sv,func):
 	plt.xlim(20000,21000)
 	plt.show()
 
+
 residualplot(x,v,Sv,func)
 
 
 #--------------------------------
 #Part f
+
+
 myres = Residuals
+
 
 def leastsqplotf(x0, v, Sv, myres):
 	goodv = np.arange(20000, 21001, 1)
-	res = leastsq(myres, x0, args = (Sv, v))
+	res = leastsq(myres, x0, args = (v, Sv))
 	x1 = res[0]
 	yvals = ModelSpectrum2(x1,goodv)
 	plt.plot(goodv, yvals, label = 'Least Squares')
@@ -231,38 +247,38 @@ def leastsqplotf(x0, v, Sv, myres):
 
 leastsqplotf(x,v,Sv,myres)
 
+
 #---------------------------------
 # Part g
 
+
 def leastsqplotg(x0, v, Sv, myres):
 	goodv = np.arange(20000, 21001, 1)
-	res = leastsq(myres, x0, args = (Sv, v))
+	res = leastsq(myres, x0, args = (v, Sv))
 	x1 = res[0]
-	yvals = ModelSpectrum2(x1,goodv)
 	yvals1 = myres(x1,v,Sv)
 	plt.scatter(v, yvals1, label = 'Least Squares Residuals')
-	plt.plot(goodv, yvals, label = 'Least Squares')
-	plt.plot(v, Sv, label = "Data")
+	plt.ylim(-2e-6,2e-6)
 	plt.xlabel('Wavenumber (v)')
 	plt.ylabel('Optical Intensity (S(v))')
-	plt.title('Least Squares Fitting and Residual')
+	plt.title('Least Squares Fitting Residuals')
+	plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
 	plt.axhline(color = 'black')
 	plt.legend()
 	plt.grid()
 	plt.xlim(20000,21000)
 	plt.show()
 
-leastsqplotg(x,v,Sv,myres)
+#leastsqplotg(x,v,Sv,myres)
 
 #----------------------------------
 #Part h
 
 def leastsqploth(x0, v, Sv, myres):
 	goodv = np.arange(20000, 21001, 1)
-	res = leastsq(myres, x0, args = (Sv, v))
+	res = leastsq(myres, x0, args = (v, Sv))
 	x1 = res[0]
 	yvals = ModelSpectrum2(x1,goodv)
-	# yvals1 = myres(x1,v,Sv)
 	plt.plot(goodv, yvals, label = 'Least Squares', color = 'violet')
 	plt.scatter(v, Sv, label = "Data", color = 'green')
 	plt.xlabel('Wavenumber (v)')

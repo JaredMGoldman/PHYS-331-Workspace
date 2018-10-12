@@ -5,12 +5,21 @@ import matplotlib.pyplot as plt
 #-------------------------------
 # Part a
 
+
 def triSolve(M, b, upperOrLower):
-    
+    """
+	INPUTS:
+		M : numpy array, n x n upper or lower tiangular matrix
+		b : numpy array, n x 1 dimensional
+		upperOrLower: 1 or 0, corresponds to whether or not M is upper or Lower {1 : 'upper', 0 : 'lower'} 
+
+	OUTPUT:
+		xvals: numpy array, n x 1 dimensional, solution to triangular system
+	"""
     n = np.shape(M)[0]
     xvals = np.zeros((n,1))
     n -= 1
-    
+
     if upperOrLower == 1:
         for i in range (n,-1,-1):
             bval = b[i,0]
@@ -38,11 +47,6 @@ def triSolve(M, b, upperOrLower):
     return xvals
 
 
-print('Part a:')
-print('')
-print(triSolve(M,b,upperOrLower))
-print('')
-print('--------------------------')
 #--------------------------------------
 # Part b
 
@@ -76,20 +80,52 @@ def checkSolve(M, x, b):
     return matrix_mult(M,x)-b
 
 
-print('Part b:')
+#--------------------------------------
+#part c
+
+
+def mainc():
+	M1 = np.array([[9,0,0],[-4,2,0],[1,0,5]])
+	b1 = np.array([[8],[1],[4]])
+	M2 = np.array([[2,4,5],[0,2,-4],[0,0,5]])
+	b2 = np.array([[-4],[9],[4]])
+	uL1 = 0
+	uL2 = 1
+	for vals in [(M1, b1, uL1), (M2,b2,uL2)]:
+		(M,b,upperOrLower) = vals
+		print('For matricies:')
+		print('M =', M) 
+		print("and")
+		print('b =', b) 
+		print('the residual is:')
+		print(checkSolve(M,triSolve(M,b,upperOrLower),b))
+		print('')
+
+
 print('')
-print(checkSolve(M,triSolve(M,b,upperOrLower),b))
+print('Part c')
+mainc()
 print('')
 print('--------------------------')
+
 
 #--------------------------------------
 # Part d
 
 
-def matrixgenerator(n, upperOrLower):
-    
-    # n = int(input('Input a value, n, the dimension of the resulting matrix: '))
-    # upperOrLower = int(input('Input 0 for lower triangular and 1 for upper triangular matrix: '))
+def matrixgenerator():
+    """
+	INPUTS:
+		n: manual input, int, dimensions of triangular system
+		upperOrLower: 1 or 0, determines wheter or not it is upper or lower triangular
+
+	OUTPUTS:
+		mymatrix: n x n array, upper or lower triangular (M)
+		mymatrix1: n x 1 dimensional array, (b)
+
+	"""
+	n = int(input('Input a value, n, the dimension of the resulting matrix: '))
+    upperOrLower = int(input('Input 0 for lower triangular and 1 for upper triangular matrix: '))
     
     mymatrix = np.zeros((n,n)) 
     mymatrix1 = np.zeros((n,1))
@@ -117,19 +153,9 @@ def matrixgenerator(n, upperOrLower):
                 else:
                     mymatrix[i,j] = np.random.randn()
             end += 1
-    
+    else:
+		return "Please reenter a value of 0 or 1 for the value of the triangular matrix"
     for i1 in range(0,n):
         mymatrix1[i1,0] = np.random.randn()
 
     return mymatrix, mymatrix1
-
-def main():
-	for n in [3,10,30,100]:
-		for upperOrLower in [1,0]:
-			M, b = matrixgenerator(n,upperOrLower)
-			print('')
-			print('For a ' + str(n) + ' x ' + str(n) + ' matrix, the average error is: ' + str(np.sum(np.abs((checkSolve(M,triSolve(M,b,upperOrLower),b))))/np.size((checkSolve(M,triSolve(M,b,upperOrLower),b)))))
-print('Part d:')   
-main()
-print('')
-print('--------------------------')
