@@ -174,11 +174,16 @@ def ModelSpectrum(c1, c2, v01, v02, gamma1, gamma2, v):
 	return c1 * L(v, gamma1, v01)+ c2 * L(v, gamma2, v02)
 
 
+print("Part c")
+print('')
+
 a, c1, c2, v01, v02, gamma1, gamma2, xlo, xhi, dx, func= datafinder(), 20.344115996923755, 60.56593635282718, 20350, 20825, 63.48, 37.45, 20000, 21000, 1, ModelSpectrum
 cplot(func, xlo, xhi, dx, c1, c2, v01, v02, gamma1, gamma2)
 HarryPlotter(a)
 plt.show()
 
+print('')
+print('------------------------')
 
 #------------------------------
 #Part d
@@ -219,8 +224,13 @@ def residualplot(x, v, Sv,func):
 	plt.show()
 
 
+print("Part e")
+print('')
+
 residualplot(x,v,Sv,func)
 
+print('')
+print('------------------------')
 
 #--------------------------------
 #Part f
@@ -245,7 +255,14 @@ def leastsqplotf(x0, v, Sv, myres):
 	plt.xlim(20000,21000)
 	plt.show()
 
+
+print("Part f")
+print('')
+
 leastsqplotf(x,v,Sv,myres)
+
+print('')
+print('------------------------')
 
 
 #---------------------------------
@@ -269,7 +286,13 @@ def leastsqplotg(x0, v, Sv, myres):
 	plt.xlim(20000,21000)
 	plt.show()
 
-#leastsqplotg(x,v,Sv,myres)
+print("Part g")
+print('')
+
+leastsqplotg(x,v,Sv,myres)
+
+print('')
+print('------------------------')
 
 #----------------------------------
 #Part h
@@ -290,4 +313,10 @@ def leastsqploth(x0, v, Sv, myres):
 	plt.xlim(20000,21000)
 	plt.show()
 
+print("Part h")
+print('')
+
 leastsqploth(x,v,Sv,myres)
+
+print('')
+print('------------------------')
