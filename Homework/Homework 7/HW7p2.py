@@ -80,13 +80,21 @@ def mainb():
     return xvec, A, bnice
 
 def checkSolve(M, x, b):
-    return matrix_mult(M,x)-b
+    return np.dot(M,x)-b
 
 x, M, b = mainb()
 
+
+print('For part b, the checkSolve function returns:')
 print(checkSolve(M,x,b))    # If this function returns an nx1 0 vector then the solution to the upper
                             # triangular is also a solution to the original system.
-print("The x vector is:", x)
+print('')
+print("The x vector is:")
+print(x)
+print('')
+print('---------------------')
+print('')
+print('')
 
 
 #---------------------
@@ -95,12 +103,24 @@ print("The x vector is:", x)
 def mainc():
     A = np.array([[4,-3,0,1],[2,2,3,2],[0,2,0,1],[6,1,-6,-5]], dtype = float)
     b = np.array([-7,-2,0,6], dtype = float)
+    bnice = np.array([b])
+    bnice = np.transpose(bnice)
     Atri, btri = GaussElimin(A,b)
     upperOrLower = 1
     btri = np.array([btri])
     btri = np.transpose(btri)
     xvec = triSolve(Atri, btri, upperOrLower)
-    return xvec
+    return A, bnice, xvec
 
 
-print(mainc())
+M, b, x = mainc()
+
+
+print('For part c, the checkSolve function returns:')
+print(checkSolve(M,x,b))    # If this function returns an nx1 0 vector then the solution to the upper
+                            # triangular is also a solution to the original system.
+print('')
+print("The x vector is:")
+print(x)
+print('')
+print('---------------------')
