@@ -1,6 +1,30 @@
 import numpy as np
 import scipy.linalg as sci
 
+def matrix_mult(m1,m2):
+	"""
+	INPUTS:
+		m1,m2: numpy arrays of shape (m,n), (n,m) respectively where (m == n or m != n)
+	OUTPUT:
+		matrix product: numpy array of shape (m,n)
+
+	Function that takes two matricies and returns their product.
+	"""
+	(r1,c1) = m1.shape
+	(r2,c2) = m2.shape
+	if c1 != r2:
+		return "Error, incorect matricies computed. Please reenter matricies with appropriate dimensions."
+	newentry=0
+	matrix_product = np.zeros((c1,c2))
+	for ra in range (0,r1):
+		for cb in range (0, c2):
+			for ca in range(0,c1):
+				newentry = 0
+				for rb in range(0,r2):
+					newentry += (m1[ra,rb] * m2[rb,cb])
+				matrix_product[ra,cb] = newentry			
+	return matrix_product
+    
 
 def LUdecomp(Ainput):
     """
@@ -42,7 +66,7 @@ def mainb():
         print(A)
         print('')
         print('Calculated:')
-        print(np.dot(L,U))
+        print(matrix_mult(L,U))
         print('')
         print('Lower:')
         print(L)
