@@ -58,7 +58,7 @@ def mainc():
 	plt.grid()
 	plt.show()
 
-# mainc()
+mainc()
 
 
 #------------------------
@@ -82,7 +82,7 @@ def maind():
 		i += 1
 		matrixsolver(tvec, xvec)
 
-# maind()
+maind()
 
 
 #-----------------------------
