@@ -1,6 +1,8 @@
 import numpy as np
 import scipy.linalg as sci
 
+
+
 def matrix_mult(m1,m2):
 	"""
 	INPUTS:
@@ -24,7 +26,7 @@ def matrix_mult(m1,m2):
 					newentry += (m1[ra,rb] * m2[rb,cb])
 				matrix_product[ra,cb] = newentry			
 	return matrix_product
-    
+
 
 def LUdecomp(Ainput):
     """
