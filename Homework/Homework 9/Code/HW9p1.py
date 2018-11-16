@@ -7,72 +7,47 @@ def f(x):
 
 
 def trap(f,a,b,n):
-    h = (b-a)/n
-    x = a
+    h = (b-a)/(n-1)
     I = 0
     I += h/2*(f(a)+f(b))
-    for x in np.arange(a+h,b,h):
-        I += h * f(x)    
+    for n in np.arange(1,n-1):
+        I += h*f(a+h*n)    
     return I
 
 
 def simp13(f,a,b,n):
     I = 0
-    # errflag = 1
     while n % 6 != 1:
         n += 1
     print("Final value of n is:", n)
-    h = (b-a)/n
+    nodd = np.arange(1,n,2)
+    neven = np.arange(2,n-1,2)
+    h = (b-a)/(n-1)
     I += f(a) + f(b)
-    iter = 1
-    for x in np.arange(a+h,b,h):
-        
-        if iter % 2 != 0:   #odd term
-            I += 4*f(x)
-        else:               #even term
-            I += 2*f(x) 
-        iter += 1
-        # if errflag == 1:
-        #     I += 4*f(x)
-        # if errflag == 0:
-        #     I += 2*f(x)
-        # if errflag == 0:
-        #     errflag = 1 #odd term
-        #     continue
-        # if errflag == 1:
-        #     errflag = 0 #even term
-        #     continue
+    for n in nodd:
+        I += 4*f(n*h+a)
+    for n in neven:
+        I += 2*f(n*h+a)
     I *= h/3
     return I
         
 
 def simp38(f,a,b,n):
     I = 0
-    x = a
-    errflag = 1
     while n % 6 != 1:
         n += 1
     print("Final value of n is:", n)
-    h = (b-a)/n
-    I += f(a)
-    for i in np.arange(n):
-        x += h
-        if errflag == 1:
-            I += 3*f(x)
-        if errflag == 0:
-            I += 3*f(x)
-        if errflag == 2:
-            I += 2*f(x)
-        if errflag == 0:
-            errflag = 1 
-            continue
-        if errflag == 1:
-            errflag = 2 
-            continue
-        if errflag == 2:
-            errflag = 0 
-            continue
-    I += f(b)
+    h = (b-a)/(n-1)
+    I += f(a) + f(b)
+    n1 = np.arange(1,n-1,3)
+    n2 = np.arange(2,n-1,3)
+    n3 = np.arange(3,n-1,3)
+    for n in n1:
+        I += 3*f(n*h+a)
+    for n in n2:
+        I += 3*f(n*h+a)
+    for n in n3:
+        I += 2*f(n*h+a)
     I *= 3*h/8
     return I
 
@@ -150,8 +125,7 @@ def mainc():
     plt.axvline(color = "black")
     plt.axhline(color = "black")
     plt.grid()
-    plt.xlim((10,1e5))
-    plt.ylim((1e-15,2e-1))
+    plt.xlim((1e1,1e5))
     plt.legend()
     plt.loglog()
     plt.xlabel("Number of Mesh Points")
