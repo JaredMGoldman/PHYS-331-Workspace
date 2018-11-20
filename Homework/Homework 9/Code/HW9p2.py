@@ -15,13 +15,14 @@ def trap(f,a,b,n):
         I += h*f(a+h*n)    
     return I
 
+
 def simp13(f,a,b,n):
     I = 0
     while n % 6 != 1:
         n += 1
     print("Final value of n is:", n)
-    nodd = np.arange(1,n-1,2)
-    neven = np.arange(2,n-2,2)
+    nodd = np.arange(1,n,2)
+    neven = np.arange(2,n-1,2)
     h = (b-a)/(n-1)
     I += f(a) + f(b)
     for n in nodd:
@@ -79,27 +80,29 @@ def func2():
     a, b = 0, 1
     print("Original integral is:", sci.quad(f1,a,b))
 
+
 def func3():
-    a,b = 1, 0
+    a,b = 0, 1
     print("Modified Integral is:", sci.quad(f2,a,b))
+
 
 def mainc():
     n = 1e3
-    # func2()
-    # func3()
-    # dx = 1e-3
-    # x_vals = np.arange(0,1+dx,dx)
-    # plt.plot(x_vals, f1(x_vals), label = "Original Function")
-    # plt.plot(f2(x_vals), x_vals, label = "Modified Function")
-    # plt.grid()
-    # plt.xlabel("x")
-    # plt.xlim((0,1))
-    # plt.ylabel("y")
-    # plt.title("Problem 2, Part c: Integral Substitution")
-    # plt.legend()
-    # plt.axvline(color="black")
-    # plt.axhline(color="black")
-    # plt.show()
+    func2()
+    func3()
+    dx = 1e-3
+    x_vals = np.arange(0,1+dx,dx)
+    plt.plot(x_vals, f1(x_vals), label = "Original Function")
+    plt.plot(f2(x_vals), x_vals, label = "Modified Function")
+    plt.grid()
+    plt.xlabel("x")
+    plt.xlim((0,1))
+    plt.ylabel("y")
+    plt.title("Problem 2, Part c: Integral Substitution")
+    plt.legend()
+    plt.axvline(color="black")
+    plt.axhline(color="black")
+    plt.show()
     func1out = SimpsonIntegrate(f1,0,1,n)
     func2out = SimpsonIntegrate(f2,0,1,n)
     print("\nFor Original function:\n\nTrapezoid:", error(func1out[0]), "\nSimpson's 1/3:", error(func1out[1]), "\nSimpson's 3/8:", error(func1out[2]))

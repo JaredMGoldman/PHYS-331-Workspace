@@ -30,6 +30,7 @@ def simp13(f,a,b,n):
         I += 2*f(n*h+a)
     I *= h/3
     return I
+
         
 
 def simp38(f,a,b,n):
@@ -91,6 +92,7 @@ def HarryPlotter(f,xlo,xhi):
     plt.ylabel('y')
     plt.show()
 
+
 #---------------------------
 # Part a
 
@@ -100,7 +102,7 @@ def func1():
     HarryPlotter(f,a,b)
     return SimpsonIntegrate(f,a,b,10)
 
-# func1()
+func1()
 
 
 #---------------------------
